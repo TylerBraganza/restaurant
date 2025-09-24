@@ -5,7 +5,7 @@
 <template>
     <h1></h1>
     <v-app-bar color = "#222222">
-        <v-app-bar-title>The Grill</v-app-bar-title>
+        <v-app-bar-title>THE GRILL</v-app-bar-title>
 
         <v-btn to = "/">Home</v-btn>
         <v-btn to = "/Menu">Menu</v-btn>
