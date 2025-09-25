@@ -8,7 +8,7 @@
      <v-container>
         <v-row>
             <v-col>
-                <v-card max-width="1000">
+                <v-card max-width="2000">
                     <v-row>
                         <p class="text-h5">Make a Reservation</p>
                     </v-row>
