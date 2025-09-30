@@ -15,11 +15,11 @@
         
         <!-- <v-btn to = "/UserProfile" v-if = "isloggedin">User Profile</v-btn>
         <v-btn to = "/Signup">Signup</v-btn>-->
-        <v-btn to = "/Login" else = "isloggedin">Login</v-btn>
+        <v-btn to = "/Login" v-if = "!isLoggedIn">Login</v-btn>
 
-        <!-- <v-avatar to="/UserProfile" v-if = "isLoggedIn">
-            <span class="text-h5">A</span>
-        </v-avatar> -->
+        <v-avatar to="/UserProfile" v-if = "isLoggedIn">
+            <span class="text-h5 text-white">T</span>
+        </v-avatar>
 
 
     </v-app-bar>
