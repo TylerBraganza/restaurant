@@ -6,7 +6,7 @@
     <!-- Carousel -->
     <v-container>
         <v-row>
-            <v-carousel>
+            <v-carousel hide-delimiters :cycle="true">
                 <v-carousel-item src="/images/ivan-torres-MQUqbmszGGM-unsplash.jpg"></v-carousel-item>
                 <v-carousel-item src="/images/mark-patterson-yVfagKpDeoc-unsplash.jpg"></v-carousel-item>
                 <v-carousel-item src="/images/q-u-i-n-g-u-y-e-n-S6atLH5Rf0U-unsplash.jpg"></v-carousel-item>

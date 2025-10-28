@@ -28,7 +28,7 @@ function view(menu){
                             <v-chip>{{ item.category }}</v-chip>
                         </v-col>
                     </v-row>
-                    <v-card-subtitle>{{ item.description }}</v-card-subtitle>
+                    <v-card-text>{{ item.description }}</v-card-text>
                     <v-card-title>{{ item.price }}</v-card-title> 
                     <v-card-actions>
                         <v-btn @click="view(item)">View</v-btn>

@@ -2,36 +2,31 @@
 
 import {ref} from 'vue'
 import {useRouter} from "vue-router"
+import api from '@/services/api'
+import TokenService from '@/services/tokenService'
 
-//models
-const email = ref(null)
-const password = ref(null)
+const email = ref('')
+const password = ref('')
 
-
-// user interface models
-const router = useRouter();
 const showPassword = ref(false)
 
-//function
-function login(){
-    try {
-        //get user data
-        let user = JSON.parse(localStorage.getItem("signUpData"));
-        //check user details
-        if(email.value = user.email && password.value == user.password){
-            localStorage.setItem( "isLoggedIn", true );
-            router.push('/')
-
-        }else{
-            console.log("Invalid credentials")
-        }
-
-        // To Do: send data to backend
-    } catch (err) {
-        console.error('Login process failed', err)
+async function login(){
+    try{
+        const response = await api.post('/login',
+            {'email':email.value,
+             'password':password.value
+            });
+        TokenService.setToken(response.data)
+        alert('Login Successful!', response.data)
+        return response.data;
     }
-
+    catch(error){
+        console.error('Login Failed', error.response?.data)
+    }
+    
+    
 }
+
 </script>
 
 <template>
@@ -61,7 +56,7 @@ function login(){
                         <v-btn color="white" variant="elevated" @click="login()">LOGIN</v-btn>
                     </v-card-actions>
                     <v-card-text style="font-family: 'Courier New', Courier, monospace;">Don't have an account?
-                        <router-link to="/Signup">SignUp</router-link>
+                        <router-link to="/signup">SignUp</router-link>
                     </v-card-text>
 
                 </v-card>

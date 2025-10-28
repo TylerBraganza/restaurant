@@ -9,6 +9,12 @@ import Orders from '@/components/Orders.vue'
 import Reservation from '@/components/Reservation.vue'
 import SignUp from '@/components/SignUp.vue'
 import UserProfile from '@/components/UserProfile.vue'
+import UserPage from '@/components/UserPage.vue'
+
+import AuthService from '@/services/authService'
+import RestaurantPage from '@/components/RestaurantPage.vue'
+import CategoryPage from '@/components/CategoryPage.vue'
+import WelcomePage from '@/components/WelcomePage.vue'
 
 
 const router = createRouter({
@@ -68,7 +74,43 @@ const router = createRouter({
       component: UserProfile
     },
 
+    {
+      name: 'userpage',
+      path: '/userpage',
+      component: UserPage
+    },
+
+    {
+      name: 'restaurantpage',
+      path: '/restaurantpage',
+      component: RestaurantPage
+    },
+
+    {
+      name: 'categorypage',
+      path: '/categorypage',
+      component: CategoryPage
+    },
+
+    {
+      name: 'welcomepage',
+      path: '/welcomepage',
+      component: WelcomePage
+    },
+
+
   ],
+})
+
+router.beforeEach((to, from, next)=>{
+  const publicPages = ['/','/login', '/contactus', '/signup'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = AuthService.isLoggedIn();
+
+  if(!loggedIn && authRequired){
+    return next('/login')
+  }
+  next()
 })
 
 export default router

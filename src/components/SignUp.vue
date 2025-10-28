@@ -1,38 +1,35 @@
 <script setup>
 
-import {ref} from 'vue'
-
-//models
-const name = ref(null)
-const email = ref(null)
-const phone = ref(null)
-const deliveryAddress = ref(null)
-const password = ref(null)
-
-// user interface models
-const showPassword = ref(false)
-const showConfirmPassword = ref(false)
-
-//functions
-function signUp(){
-    const signUpData = {
-        'name': name.value,
-        'email': email.value,
-        'phone': phone.value,
-        'deliveryAddress': deliveryAddress.value,
-        'password': password.value,
-    }
-
+  import { ref } from 'vue'
+  
+  import api from '../services/api'
+  import TokenService from '../services/tokenService'
+  import { RouterLink } from 'vue-router'
+  
+  const initialState = {
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  }
+  
+  const state = ref({
+    ...initialState,
+  })
+  
+  async function signup() {
     try {
-        // save data on browser
-        localStorage.setItem("signUpData", JSON.stringify(signUpData));
-
-        // To do: Send Data to backend
-
-    } catch(err) {
-        console.error('Sign Up process failed', err)
+      const response = await api.post('/register', state.value)
+      alert('Registration Successful!:', response.data)
+    } catch (error) {
+      console.error('Login Failed', error.response?.data || error.message)
     }
-}
+    clear()
+  }
+  
+  function clear() {
+    state.value = { ...initialState }
+  }
 </script>
 
 <template>
@@ -41,17 +38,15 @@ function signUp(){
             <v-col>
                 <v-card class="pa-6" width="600" justify="center" color="#222222">
                     <v-card-title style="font-family: 'Courier New', Courier, monospace;">SIGN UP</v-card-title>
-                    <v-text-field v-model="name" label="Name" :rules="[(v) => !!v || 'Name is required']"></v-text-field>
-                    <v-text-field v-model="email" label="Email"
+                    <v-text-field v-model="state.name" label="Name" :rules="[(v) => !!v || 'Name is required']"></v-text-field>
+                    <v-text-field v-model="state.email" label="Email"
                         :rules="[
                             (v) => !!v || 'Email is required',
                             (v) => /.+@.+\..+/.test(v) || 'Email must be valid',
                         ]"
                         required> 
                     </v-text-field>
-                    <v-text-field v-model="phone" label="Phone Number" type="number"></v-text-field>
-                    <v-text-field v-model="deliveryAddress" label="Delivery Address" :rules="[(v) => !!v || 'Delivery Address is required']"></v-text-field>
-                    <v-text-field v-model="password" label="Password"
+                    <v-text-field v-model="state.password" label="Password"
                         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="showPassword ? 'text' : 'password'"
                         @click:append="showPassword = !showPassword"
@@ -62,17 +57,18 @@ function signUp(){
                         required
                     ></v-text-field>
                     <v-text-field label="Confirm Password"
+                        v-model="state.password_confirmation"
                         :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="showConfirmPassword ? 'text' : 'password'"
                         @click:append="showConfirmPassword = !showConfirmPassword"
                         :rules="[
                             (v) => !!v || 'Please confirm your password',
-                            (v) => v === password || 'Passwords must match',
+                            (v) => v === state.password || 'Passwords must match',
                         ]"
                         required
                     ></v-text-field>
                     <v-card-actions>
-                        <v-btn color="white" variant="elevated" @click="signUp()">SIGN UP</v-btn>
+                        <v-btn color="white" variant="elevated" @click="signup()">SIGN UP</v-btn>
                     </v-card-actions>
                     <v-card-text style="font-family: 'Courier New', Courier, monospace;">Already registered?
                         <router-link to="/Login">Login</router-link>
