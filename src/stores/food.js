@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import {ref, shallowRef, toRef } from 'vue'
 import api from '@/services/api'
+import CategoryPage from "@/components/CategoryPage.vue";
 
-export const useCategoryStore = defineStore('category', () => {
+export const useFoodStore = defineStore('food', () => {
     
-    const categories = ref([])
+    const foods = ref([])
     const formModel = ref(createNewRecord())
     const dialog = shallowRef(false)
     const isEditing = toRef(() => !!formModel.value.id)
@@ -12,7 +13,12 @@ export const useCategoryStore = defineStore('category', () => {
     function createNewRecord () {
         return {
           name: '',
+          price: '',
           description: '',
+          food_code:'',
+          category_id:'',
+          restaurant_id:''
+
         }
       }
 
@@ -20,33 +26,33 @@ export const useCategoryStore = defineStore('category', () => {
         if (isEditing.value) {
           // Update function
           try{
-              await api.post(`/updateCategory/${formModel.value.id}`, formModel.value)
+              await api.post(`/updateFood/${formModel.value.id}`, formModel.value)
               window.location.reload()
           }
           catch(error){
-              console.error('Failed to save category', error?.response?.message)
+              console.error('Failed to save food', error?.response?.message)
           }
         } else {
           // Save function
           try{
-              await api.post('/saveCategory', formModel.value)
+              await api.post('/saveFood', formModel.value)
               window.location.reload()
           }
           catch(error){
-              console.error('Failed to save category', error?.response?.message)
+              console.error('Failed to save food', error?.response?.message)
           }
         }
     
         dialog.value = false
       }
 
-    async function getCategories() {
+    async function getFoods() {
         try{
-            const response = await api.get('/getCategory')
-            categories.value = response.data.Category;
+            const response = await api.get('/getFood')
+            foods.value = response.data.Food
         }
         catch(error){
-            console.error('Failed to fetch categories', error?.response?.message);
+            console.error('Failed to fetch foods', error?.response?.message);
         }
     }
 
@@ -57,11 +63,15 @@ export const useCategoryStore = defineStore('category', () => {
       }
     
       function edit (id) {
-        const found = categories.value.find(category => category.id === id) 
+        const found = foods.value.find(food => food.id === id) 
         formModel.value = {
           id: found.id,
           name: found.name,
+          price: found.price,
           description: found.description,
+          food_code: found.food_code,
+          category_id: found.category_id,
+          restaurant_id: found.restaurant_id
         }
     
         dialog.value = true
@@ -69,11 +79,11 @@ export const useCategoryStore = defineStore('category', () => {
     
       async function remove (id) {
           try{
-              await api.delete(`/deleteCategory/${id}`)
+              await api.delete(`/deleteFood/${id}`)
               window.location.reload()
           }
           catch(error){
-              console.error('Failed to save category', error?.response?.message)
+              console.error('Failed to save food', error?.response?.message)
           }
       }
     
@@ -82,13 +92,13 @@ export const useCategoryStore = defineStore('category', () => {
       function reset () {
         dialog.value = false
         formModel.value = createNewRecord()
-        categories.value = [
+        foods.value = [
   
         ]
       }
 
     return {
-        categories, 
+        foods, 
         formModel, 
         dialog, 
         isEditing,
@@ -97,7 +107,7 @@ export const useCategoryStore = defineStore('category', () => {
         remove,
         save,
         reset,
-        getCategories,
+        getFoods,
         createNewRecord
     }
     

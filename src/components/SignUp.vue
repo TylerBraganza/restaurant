@@ -3,7 +3,6 @@
   import { ref } from 'vue'
   
   import api from '../services/api'
-  import TokenService from '../services/tokenService'
   import { RouterLink } from 'vue-router'
   
   const initialState = {

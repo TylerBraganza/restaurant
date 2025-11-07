@@ -70,9 +70,24 @@
                     </v-col>
 
                     <v-select
-                    v-model="userStore.formModel.user_role"
-                    label="Role"
-                    :items="roleBucket"/>
+                    cols="12"
+                    v-model="userStore.formModel.role_id"
+                    :items="roleStore.roles"
+                    item-title="name"
+                    item-value="id"
+                    label="Role"/>
+
+                    <v-col cols="12">
+                        <v-file-input
+                          v-model="user_image"
+                          placeholder="Upload Profile Photo"
+                          accept="image/png, image/jpg, image/jpeg."
+                          prepend-icon="mdi-camera"
+                          label="Profile Picture"
+                        >
+                            
+                        </v-file-input>
+                    </v-col>
 
                     <v-col cols="12" >
                     <v-text-field v-model="userStore.formModel.password" label="Password"></v-text-field>
@@ -96,22 +111,18 @@
             </v-card>
         </v-dialog>
     </v-container>
-  </template>
-  <script setup>
+</template>
+<script setup>
   import { useUserStore } from '@/stores/user'
   import { onMounted, ref } from 'vue'
   import { useRoleStore } from '@/stores/role'
 
   const userStore = useUserStore()
   const roleStore = useRoleStore()
-  const users = ref([])
-
-  const roleBucket = ref([roleStore.Roles])
   
     onMounted(() => {
       userStore.getUsers();
       roleStore.getRoles()
-      users.value = userStore.users;
     })
       
     const headers = [
@@ -121,9 +132,5 @@
         { title: 'Role', key: 'role_name'},
         { title: 'Actions', key: 'actions', align: 'end', sortable: false },
       ]
-
-
-
-
     
-  </script>
+</script>

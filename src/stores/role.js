@@ -43,8 +43,7 @@ export const useRoleStore = defineStore('role', () => {
     async function getRoles() {
         try{
             const response = await api.get('/getRoles')
-            roles.value = response.data.Role;
-            console.log(roles)
+            roles.value = response.data.Roles
         }
         catch(error){
             console.error('Failed to fetch roles', error?.response?.message);

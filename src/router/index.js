@@ -15,6 +15,9 @@ import AuthService from '@/services/authService'
 import RestaurantPage from '@/components/RestaurantPage.vue'
 import CategoryPage from '@/components/CategoryPage.vue'
 import WelcomePage from '@/components/WelcomePage.vue'
+import RolesPage from '@/components/RolesPage.vue'
+import FoodPage from '@/components/FoodPage.vue'
+import OrdersPage from '@/components/OrdersPage.vue'
 
 
 const router = createRouter({
@@ -98,7 +101,23 @@ const router = createRouter({
       component: WelcomePage
     },
 
+    {
+      name: 'rolespage',
+      path: '/rolespage',
+      component: RolesPage
+    },
 
+    {
+      name: 'foodpage',
+      path: '/foodpage',
+      component: FoodPage
+    },
+
+    {
+      name: 'orderspage',
+      path: '/orderspage',
+      component: OrdersPage
+    },
   ],
 })
 

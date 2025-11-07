@@ -9,7 +9,7 @@
                 <template v-slot:top>
                 <v-toolbar color="#222" flat>
                     <v-toolbar-title>
-                    <v-icon color="white" icon="mdi-silverware-fork-knife" size="x-small" start></v-icon>
+                    <v-icon color="white" icon="mdi-account-tie" size="x-small" start></v-icon>
         
                     Roles
                     </v-toolbar-title>
@@ -67,7 +67,7 @@
                     </v-col>
         
                     <v-col cols="12" >
-                    <v-text-field v-model="roleStore.formModel.slug" label="Address"></v-text-field>
+                    <v-text-field v-model="roleStore.formModel.slug" label="Slug"></v-text-field>
                     </v-col>
                 </v-row>
                 </template>
@@ -91,11 +91,10 @@
   import AuthService from '@/services/authService'
 
   const roleStore = useRoleStore()
-  const roles = ref([])
   
     onMounted(() => {
       roleStore.getRoles();
-      roles.value = roleStore.roles;
+     
     })
       
     const headers = [

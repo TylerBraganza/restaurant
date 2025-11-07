@@ -88,30 +88,26 @@
             </v-card>
         </v-dialog>
     </v-container>
-  </template>
-  <script setup>
-  import { useRestaurantStore } from '@/stores/restaurant'
-  import { onMounted, ref } from 'vue'
-  import AuthService from '@/services/authService'
+</template>
+<script setup>
+    import { useRestaurantStore } from '@/stores/restaurant'
+    import { onMounted, ref } from 'vue'
+    import AuthService from '@/services/authService'
 
-  const restaurantStore = useRestaurantStore()
-  const restaurants = ref([])
+    const restaurantStore = useRestaurantStore()
+    const restaurants = ref([])
   
     onMounted(() => {
-      restaurantStore.getRestaurants();
-      restaurants.value = restaurantStore.restaurants;
+        restaurantStore.getRestaurants();
+        restaurants.value = restaurantStore.restaurants;
     })
       
-    const headers = [
+    const headers = [ 
         { title: 'ID', key: 'id', align: 'start' },
         { title: 'Name', key: 'name' },
         { title: 'Address', key: 'address' },
         { title: 'Description', key: 'description' },
         { title: 'Actions', key: 'actions', align: 'end', sortable: false },
-      ]
+    ]
 
-
-
-
-    
-  </script>
+</script>

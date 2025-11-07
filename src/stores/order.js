@@ -2,17 +2,19 @@ import { defineStore } from "pinia";
 import {ref, shallowRef, toRef } from 'vue'
 import api from '@/services/api'
 
-export const useCategoryStore = defineStore('category', () => {
+export const useOrderStore = defineStore('order', () => {
     
-    const categories = ref([])
+    const orders = ref([])
     const formModel = ref(createNewRecord())
     const dialog = shallowRef(false)
     const isEditing = toRef(() => !!formModel.value.id)
     
     function createNewRecord () {
         return {
-          name: '',
-          description: '',
+          user_id: '',
+          food_id: '',
+          quantity: '',
+          status: ''
         }
       }
 
@@ -20,33 +22,33 @@ export const useCategoryStore = defineStore('category', () => {
         if (isEditing.value) {
           // Update function
           try{
-              await api.post(`/updateCategory/${formModel.value.id}`, formModel.value)
+              await api.post(`/updateOrder/${formModel.value.id}`, formModel.value)
               window.location.reload()
           }
           catch(error){
-              console.error('Failed to save category', error?.response?.message)
+              console.error('Failed to save order', error?.response?.message)
           }
         } else {
           // Save function
           try{
-              await api.post('/saveCategory', formModel.value)
+              await api.post('/saveOrder', formModel.value)
               window.location.reload()
           }
           catch(error){
-              console.error('Failed to save category', error?.response?.message)
+              console.error('Failed to save order', error?.response?.message)
           }
         }
     
         dialog.value = false
       }
 
-    async function getCategories() {
+    async function getOrders() {
         try{
-            const response = await api.get('/getCategory')
-            categories.value = response.data.Category;
+            const response = await api.get('/getOrder')
+            orders.value = response.data.Order;
         }
         catch(error){
-            console.error('Failed to fetch categories', error?.response?.message);
+            console.error('Failed to fetch orders', error?.response?.message);
         }
     }
 
@@ -57,11 +59,13 @@ export const useCategoryStore = defineStore('category', () => {
       }
     
       function edit (id) {
-        const found = categories.value.find(category => category.id === id) 
+        const found = orders.value.find(order => order.id === id) 
         formModel.value = {
           id: found.id,
-          name: found.name,
-          description: found.description,
+          user_id: found.user_id,
+          food_id: found.food_id,
+          quantity: found.quantity,
+          status: found.status
         }
     
         dialog.value = true
@@ -69,11 +73,11 @@ export const useCategoryStore = defineStore('category', () => {
     
       async function remove (id) {
           try{
-              await api.delete(`/deleteCategory/${id}`)
+              await api.delete(`/deleteOrder/${id}`)
               window.location.reload()
           }
           catch(error){
-              console.error('Failed to save category', error?.response?.message)
+              console.error('Failed to save order', error?.response?.message)
           }
       }
     
@@ -82,13 +86,13 @@ export const useCategoryStore = defineStore('category', () => {
       function reset () {
         dialog.value = false
         formModel.value = createNewRecord()
-        categories.value = [
+        orders.value = [
   
         ]
       }
 
     return {
-        categories, 
+        orders, 
         formModel, 
         dialog, 
         isEditing,
@@ -97,7 +101,7 @@ export const useCategoryStore = defineStore('category', () => {
         remove,
         save,
         reset,
-        getCategories,
+        getOrders,
         createNewRecord
     }
     

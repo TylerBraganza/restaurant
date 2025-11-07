@@ -3,8 +3,8 @@
         <v-sheet border rounded>
             <v-data-table
                 :headers="headers"
-                :hide-default-footer="categoryStore.categorys.length < 11"
-                :items="categoryStore.categorys"
+                :hide-default-footer="categoryStore.categories.length < 11"
+                :items="categoryStore.categories"
             >
                 <template v-slot:top>
                 <v-toolbar color="#222" flat>
@@ -83,17 +83,17 @@
             </v-card>
         </v-dialog>
     </v-container>
-  </template>
-  <script setup>
-  import { useCategoryStore } from '@/stores/category'
-  import { onMounted, ref } from 'vue'
+</template>
+<script setup>
+    import { useCategoryStore } from '@/stores/category'
+    import { onMounted, ref } from 'vue'
 
-  const categoryStore = useCategoryStore()
-  const categorys = ref([])
+    const categoryStore = useCategoryStore()
+    const categories = ref([])
   
     onMounted(() => {
-      categoryStore.getCategorys();
-      categorys.value = categoryStore.categorys;
+      categoryStore.getCategories();
+      categories.value = categoryStore.categories;
     })
       
     const headers = [
@@ -107,4 +107,4 @@
 
 
     
-  </script>
+</script>

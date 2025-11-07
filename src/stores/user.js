@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', () => {
         return {
           name: '',
           email: '',
-          user_role: '',
+          role_id: '',
           password: '',
           password_confirmation: ''
         }
@@ -22,13 +22,22 @@ export const useUserStore = defineStore('user', () => {
     async function save () {
         if (isEditing.value) {
           // Update function
-          try{
-              await api.post(`/updateUser/${formModel.value.id}`, formModel.value)
-              window.location.reload()
+          try {
+            const $response = await axios.post(
+              `http://127.0.0.1:8000/api/updateUser/${formModel.value.id}`,
+              formModel.value,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                }
+              }
+            )
+            // Optional: handle response
+            console.log('User updated:', $response.data)
+          } catch (error) {
+            console.error('Failed to update user:', error?.response?.data || error.message)
           }
-          catch(error){
-              console.error('Failed to save user', error?.response?.message)
-          }
+          
         } else {
           // Save function
           try{
@@ -65,7 +74,8 @@ export const useUserStore = defineStore('user', () => {
           id: found.id,
           name: found.name,
           email: found.email,
-          user_role: found.user_role,
+          role_id: found.role_id,
+          user_image: '',
           password: '',
           password_confirmation: '',
         }
